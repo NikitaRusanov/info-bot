@@ -7,4 +7,4 @@ def start_command(message: Message, bot: TeleBot):
 
 
 def setup_handlers(bot: TeleBot):
-    bot.register_message_handler(callback=start_command, commands=['help', 'start'])
+    bot.register_message_handler(callback=start_command, commands=['help', 'start'], pass_bot=True)
