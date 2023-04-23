@@ -1,12 +1,13 @@
 from telebot import TeleBot
 from config import BOT_TOKEN
-
-bot = TeleBot(BOT_TOKEN)
-
-
-@bot.message_handler(commands=['help', 'start'])
-def start_message(message):
-    bot.reply_to(message, 'It is a bot, that can send you message, when stock reach some price')
+from bot.handlers import setup_handlers
 
 
-bot.infinity_polling()
+def main():
+    bot = TeleBot(BOT_TOKEN)
+    setup_handlers(bot)
+    bot.infinity_polling()
+
+
+if __name__ == '__main__':
+    main()
