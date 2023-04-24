@@ -5,15 +5,21 @@ from typing import Optional
 
 
 class BaseHandler(ABC):
+    def __int__(self):
+        self.bot: Optional[TeleBot] = None
+
+    def __call__(self, message: Message, bot: TeleBot) -> None:
+        self.bot = bot
+        self.handle(message)
+
     @abstractmethod
-    def __call__(self, message: Message, bot: Optional[TeleBot]) -> None:
+    def handle(self, message: Message) -> None:
         raise NotImplemented
 
 
 class StartHandler(BaseHandler):
-    def __call__(self, message: Message, bot: Optional[TeleBot]) -> None:
-        bot.reply_to(message, f'Hello, {message.from_user.first_name}! It is a bot, that can send you message, when '
-                              f'stock reach some price')
+    def handle(self, message: Message) -> None:
+        self.bot.reply_to(message, f'Hello, {message.from_user.first_name}! It is a bot, that can send you message, when stock reach some price')
 
 
 def setup_handlers(bot: TeleBot):
