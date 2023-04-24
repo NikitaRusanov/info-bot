@@ -12,7 +12,8 @@ class BaseHandler(ABC):
 
 class StartHandler(BaseHandler):
     def __call__(self, message: Message, bot: Optional[TeleBot]) -> None:
-        bot.reply_to(message, 'It is a bot, that can send you message, when stock reach some price')
+        bot.reply_to(message, f'Hello, {message.from_user.first_name}! It is a bot, that can send you message, when '
+                              f'stock reach some price')
 
 
 def setup_handlers(bot: TeleBot):
