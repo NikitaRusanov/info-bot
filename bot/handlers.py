@@ -6,6 +6,7 @@ from bot.messages import BaseMessages, get_messages
 
 
 class BaseHandler(ABC):
+    '''Message handler interface'''
     def __int__(self):
         self.bot: Optional[TeleBot] = None
         self.messages: Optional[BaseMessages] = None
