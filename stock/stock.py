@@ -33,5 +33,3 @@ def make_plot(ticker: str) -> str:
     filepath = 'plots/' + str(hash(datetime.datetime.now())) + '.jpg'
     plt.savefig(filepath)
     return filepath
-
-print(make_plot('YNDX'))
