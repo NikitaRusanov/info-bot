@@ -1,9 +1,11 @@
 from telebot import TeleBot
-from telebot.types import Message
+from telebot.types import Message, InputFile
 from abc import ABC, abstractmethod
 from typing import Optional
-from bot.messages import BaseMessages, get_messages
+import os
 
+from bot.messages import BaseMessages, get_messages
+from stock.stock import make_plot
 
 class BaseHandler(ABC):
     '''Message handler interface'''
@@ -36,7 +38,12 @@ class PlotHandler(BaseHandler):
 
     def get_ticker_handler(self, message: Message):
         ticker = message.text
-        self.bot.send_message(message.chat.id, text=ticker)
+        filepath = make_plot(ticker)
+        self.bot.send_photo(
+            message.chat.id,
+            photo= InputFile(filepath)
+        )
+        os.remove(filepath)
 
     def handle(self, message: Message) -> None:
         self.bot.send_message(chat_id=message.chat.id, text=self.messages.ask_ticker())
