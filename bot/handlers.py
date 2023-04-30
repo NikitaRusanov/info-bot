@@ -7,6 +7,7 @@ from bot.messages import BaseMessages, get_messages
 
 class BaseHandler(ABC):
     '''Message handler interface'''
+
     def __int__(self):
         self.bot: Optional[TeleBot] = None
         self.messages: Optional[BaseMessages] = None
@@ -31,6 +32,18 @@ class HelpHandler(BaseHandler):
         self.bot.reply_to(message, self.messages.help())
 
 
+class PlotHandler(BaseHandler):
+
+    def get_ticker_handler(self, message: Message):
+        ticker = message.text
+        self.bot.send_message(message.chat.id, text=ticker)
+
+    def handle(self, message: Message) -> None:
+        self.bot.send_message(chat_id=message.chat.id, text=self.messages.ask_ticker())
+        self.bot.register_next_step_handler(message, self.get_ticker_handler)
+
+
 def setup_handlers(bot: TeleBot):
     bot.register_message_handler(callback=StartHandler(), commands=['start'], pass_bot=True)
     bot.register_message_handler(callback=HelpHandler(), commands=['help'], pass_bot=True)
+    bot.register_message_handler(callback=PlotHandler(), commands=['plot'], pass_bot=True)
