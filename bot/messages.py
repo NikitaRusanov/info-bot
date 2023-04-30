@@ -16,11 +16,14 @@ class BaseMessages(ABC):
         raise NotImplemented
 
     @abstractmethod
-    def ask_ticker(self) -> str:
+    def wrong_ticker(self) -> str:
         raise NotImplemented
 
 
 class RegularUser(BaseMessages):
+
+    def wrong_ticker(self) -> str:
+        return 'Вы ввели непраильный тикер акции'
 
     def ask_ticker(self) -> str:
         return 'Введите тикер акции, график которой хотите получить'

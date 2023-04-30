@@ -19,6 +19,10 @@ def get_ticker_data(ticker: str) -> pd.DataFrame:
 
 def make_plot(ticker: str) -> str:
     data = get_ticker_data(ticker)
+
+    if data.empty:
+        raise ValueError('Wrong ticker')
+
     close = data['CLOSE'].values
     date = [x[5:] for x in data['TRADEDATE'].values]
     plt.figure(figsize=(12, 6))

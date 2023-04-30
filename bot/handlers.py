@@ -7,6 +7,7 @@ import os
 from bot.messages import BaseMessages, get_messages
 from stock.stock import make_plot
 
+
 class BaseHandler(ABC):
     '''Message handler interface'''
 
@@ -38,12 +39,15 @@ class PlotHandler(BaseHandler):
 
     def get_ticker_handler(self, message: Message):
         ticker = message.text
-        filepath = make_plot(ticker)
-        self.bot.send_photo(
-            message.chat.id,
-            photo= InputFile(filepath)
-        )
-        os.remove(filepath)
+        try:
+            filepath = make_plot(ticker)
+            self.bot.send_photo(
+                message.chat.id,
+                photo=InputFile(filepath)
+            )
+            os.remove(filepath)
+        except ValueError:
+            self.bot.send_message(chat_id=message.chat.id, text=self.messages.wrong_ticker())
 
     def handle(self, message: Message) -> None:
         self.bot.send_message(chat_id=message.chat.id, text=self.messages.ask_ticker())
