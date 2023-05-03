@@ -34,6 +34,6 @@ def make_plot(ticker: str) -> str:
         close,
         linewidth=3,
     )
-    filepath = 'plots/' + str(hash(datetime.datetime.now())) + '.jpg'
+    filepath = str(hash(datetime.datetime.now())) + '.jpg'
     plt.savefig(filepath)
     return filepath
